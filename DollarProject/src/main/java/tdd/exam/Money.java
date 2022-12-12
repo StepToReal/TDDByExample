@@ -1,22 +1,48 @@
 package tdd.exam;
 
-public abstract class Money {
+public class Money implements Expression {
     protected int amount;
 
+    protected String currency;
+
+    public Money(int amount, String currency) {
+        this.amount = amount;
+        this.currency = currency;
+    }
+
     static Money dollar(int amount) {
-        return new Dollar(amount);
+        return new Money(amount, "USD");
     }
 
-    static France france(int amount) {
-        return new France(amount);
+    static Money franc(int amount) {
+        return new Money(amount, "CHF");
     }
 
-    abstract Money times(int multiplier);
+    Money times(int multiplier) {
+        return new Money(amount * multiplier, currency);
+    }
+
+    String currency(){
+        return currency;
+    }
 
     @Override
     public boolean equals(Object object) {
         Money money = (Money) object;
         return amount == money.amount &&
-                getClass().equals(money.getClass());
+                currency().equals(money.currency);
+    }
+
+    @Override
+    public String toString() {
+        return amount + "  " + currency;
+    }
+
+    public Expression plus(Money addend) {
+        return new Sum(this, addend);
+    }
+
+    public Money reduce(String to) {
+        return this;
     }
 }
