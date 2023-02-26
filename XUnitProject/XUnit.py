@@ -2,10 +2,19 @@ from TestCase import TestCase
 from WasRun import WasRun
 
 class TestCaseTest (TestCase):
-    def testRunning(self):
+    def testTemplateMethod(self):
         test = WasRun("testMethod")
-        assert(not test.wasRun)
         test.run()
-        assert(test.wasRun)
+        assert("setUp testMethod tearDown " == test.log)
+    def testResult(self):
+        test = WasRun("testMethod")
+        result = test.run()
+        assert("1 run, 0 failed" == result.summary())
+    def testFailedResult(self):
+        test = WasRun("testBrokenMethod")
+        result = test.run()
+        assert("1 run, 1 failed" == result.summary())
         
-TestCaseTest("testRunning").run();
+TestCaseTest("testTemplateMethod").run();
+TestCaseTest("testResult").run();
+TestCaseTest("testFailedResult").run();

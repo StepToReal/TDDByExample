@@ -6,7 +6,14 @@ class WasRun (TestCase):
         self.wasRun = None
         TestCase.__init__(self, name)
     
-    def testMethod(self):
-        self.wasRun = 1
+    def setUp(self):
+        self.log = "setUp "
         
-    
+    def testMethod(self):
+        self.log = self.log + "testMethod "
+        
+    def tearDown(self):
+        self.log = self.log + "tearDown "
+        
+    def testBrokenMethod(self):
+        raise Exception
